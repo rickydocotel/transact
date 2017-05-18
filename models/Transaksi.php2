@@ -1,0 +1,42 @@
+<?php
+
+namespace app\models;
+
+use Yii;
+use app\models\Customer;
+
+/**
+ * This is the model class for table "country".
+ *
+ * @property integer $id
+ * @property string $code
+ * @property string $name
+ */
+class Transaksi extends \yii\db\ActiveRecord
+{
+    /**
+     * @inheritdoc
+     */
+
+
+    public static function tableName()
+    {
+        return 'transaction';
+    }
+
+    public function rules()
+    {
+        return [
+        [['jurnal_no','trans_name','type','currency','customer_id','amount','currency','trans_date'], 'required'],
+        [['trans_date'], 'safe'],       
+        [['jurnal_no','amount'], 'integer'],       
+        [['trans_name','type','currency'], 'string'],
+    	];
+    }
+
+    public function getCustomer() {
+        return $this->hasOne(Customer::className(), ['id' => 'customer_id']);
+    }
+
+}
+/*[['customer_id', 'exist', 'targetClass' => Customer::className(),'targetAttribute'=>['customer_id'=>'id'],"skipOnError"=>true]],*/
