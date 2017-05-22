@@ -67,10 +67,9 @@ $dataCustom = ArrayHelper::map(Customer::find()->asArray()->all(), 'id', 'name')
             "label"=>"Nama Customer",
             "value"=>"customer.name"
             ],
-            ["attribute"=>"Nama Transaksi",
-            "value"=>function($data){
-                    return $data->trans_name;
-            }
+            ["attribute"=>"trans_name",
+            "label"=>"Nama Transaksi",
+            "value"=>"trans_name"
             ],
             ["attribute"=>"type",
             "value"=>function($data){
@@ -82,14 +81,15 @@ $dataCustom = ArrayHelper::map(Customer::find()->asArray()->all(), 'id', 'name')
             }
             ],
             ["attribute"=>"amount",
+            'contentOptions' => ['class' => 'text-right'],
             "value"=>function($data){
                     return $data->currency." ".number_format($data->amount,0,",",".");
-            }
+                    }
             ],
             ["attribute"=>"trans_date",
             "value"=>function($data){
                     return date("d-m-Y", strtotime($data->trans_date));
-            }
+                    }
             ],
 
         ],

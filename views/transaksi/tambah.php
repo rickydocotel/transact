@@ -18,7 +18,7 @@ $dataCustom = ArrayHelper::map(Customer::find()->asArray()->all(), 'id', 'name')
         <div class="row">
             <div class="col-lg-5">
 
-                <?php $form = ActiveForm::begin(['id' => 'transaksi-form']); ?>
+                <?php $form = ActiveForm::begin(['id' => 'transaksi-form','action'=>['services/tambah'],'method'=>'post']); ?>
 
                     <?= $form->field($model, 'jurnal_no')->textInput(['autofocus' => true]) ?>
 

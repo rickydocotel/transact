@@ -21,6 +21,7 @@ class Transaksi extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+
     public static function tableName()
     {
         return 'transaction';
@@ -63,4 +64,15 @@ class Transaksi extends \yii\db\ActiveRecord
     public function getCustomer() {
         return $this->hasOne(Customer::className(), ['id' => 'customer_id']);
     }
+
+   /* public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            $this->trans_date = date('Y-m-d H:i:s');
+            return true;
+        } else {
+            return false;
+        }
+    }*/
+
 }

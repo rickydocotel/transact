@@ -18,7 +18,7 @@ class CustomerSearch extends Customer
     public function rules()
     {
         return [
-            [['id', 'country_id', 'city_id'], 'integer'],
+            [['id', 'country_id', 'city_id','stat'], 'integer'],
             [['name', 'email', 'telp', 'address','country_id','city_id'], 'safe'],
         ];
     }
@@ -41,7 +41,7 @@ class CustomerSearch extends Customer
      */
     public function search($params)
     {
-        $query = Customer::find();
+        $query = Customer::find()->where(['stat'=>1]);
 
         // add conditions that should always apply here
 

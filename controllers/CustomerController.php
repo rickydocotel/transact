@@ -10,6 +10,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\Json;
+use yii\helpers\Url;
 
 /**
  * CustomerController implements the CRUD actions for Customer model.
@@ -37,6 +38,7 @@ class CustomerController extends Controller
      */
     public function actionIndex()
     {
+
         $searchModel = new CustomerSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $model = new Customer();
@@ -59,6 +61,14 @@ class CustomerController extends Controller
         ]);
     }
 
+    public function actionAktivasi($id)
+    {
+        $updet = Customer::findOne($id);
+        $updet->stat = 1;
+        $updet->save();
+        return 'Aktivasi Berhasil';
+    }
+
     /**
      * Creates a new Customer model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -67,8 +77,17 @@ class CustomerController extends Controller
     public function actionCreate()
     {
         $model = new Customer();
-
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $datasatu = Customer::find()->where(['id'=>$model->id])->one();
+                Yii::$app->mailer->compose()
+                ->setFrom('rickz.avenger@gmail.com')
+                ->setTo($datasatu['email'])
+                ->setSubject('Email Validasi')
+                ->setHtmlBody('Terima kasih anda telah mendaftar di sini<br>
+                        Untuk aktivasi silakan klik link ini :<br>
+                        <a href="http://localhost/transact/web/customer/aktivasi?id='.$datasatu['id'].'">Aktifkan</a>
+                    ')
+                ->send();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -172,4 +191,7 @@ class CustomerController extends Controller
     echo Json::encode(['output'=>'', 'selected'=>'']);
  
     }
+
+
+
 }
